@@ -6,13 +6,14 @@ $(document).ready(function () {
   //firebase linking
 
   var config = {
-    apiKey: "AIzaSyDmIFt3F1UQmQ5x4zdJ06QE9qD2eimtCMs",
-    authDomain: "train-app-a24af.firebaseapp.com",
-    databaseURL: "https://train-app-a24af.firebaseio.com",
-    projectId: "train-app-a24af",
-    storageBucket: "train-app-a24af.appspot.com",
-    messagingSenderId: "419254355608"
+    apiKey: "AIzaSyBpP1Tk1e58fbWPLUwiK_aM_Ok7iaRAJVQ",
+    authDomain: "trainv2-5e33d.firebaseapp.com",
+    databaseURL: "https://trainv2-5e33d.firebaseio.com",
+    projectId: "trainv2-5e33d",
+    storageBucket: "",
+    messagingSenderId: "635774852052"
   };
+  
   firebase.initializeApp(config);
   
 
@@ -25,22 +26,21 @@ $(document).ready(function () {
       var time = $("#timeInput").val().trim();
       var freq = $("#freqInput").val().trim();
 
-     database.ref().push({
+     var newInfo = {
          name: name,
          dest: dest,
          time: time,
          freq: freq,
          timeAdded: firebase.database.ServerValue.TIMESTAMP
-     });
-     $("input").val();
-     return false;
+     };
+     database.ref().push(newInfo);
   });
 
-  database.ref().on("child_added", function(snapshot){
-      var name = snapshot.val().name;
-      var dest = snapshot.val().dest;
-      var time = snapshot.val().time;
-      var freq = snapshot.val().freq;
+  database.ref().on("child_added", function(childSnapshot){
+      var name = childSnapshot.val().name;
+      var dest = childSnapshot.val().dest;
+      var time = childSnapshot.val().time;
+      var freq = childSnapshot.val().freq;
 
       console.log("Name: " + name);
       console.log("Destination: " + dest);
@@ -77,7 +77,7 @@ $(document).ready(function () {
  //TABLE DATA=====================================================
  //APPEND TO DISPLAY IN TRAIN TABLE
 $('#currentTime').text(currentTime);
-$('#trainTable').append(
+$('#card-text').append(
 		"<tr><td id='nameDisplay'>" + childSnapshot.val().name +
 		"</td><td id='destDisplay'>" + childSnapshot.val().dest +
 		"</td><td id='freqDisplay'>" + childSnapshot.val().freq +
